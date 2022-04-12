@@ -4,17 +4,15 @@
     ViewBag.Title = "Index";
 }
 
-
-<br />
-<br />
+<h1 align="center">Customer Details</h1>
 <table class="table table-bordered table-striped" id="myTable">
+    
     <tr>
         <td>
-            <input type="text" id="txtvalue" placeholder="Search" />
+            <input type="text" id='myInput' onkeyup='tablesearch()' placeholder="Search" />
         </td>
     </tr>
-    
-   
+
     <tr>
         <th>Name</th>
         <th>Mobile</th>
@@ -34,19 +32,23 @@
         </tr>
     }
 </table>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 <script type="text/javascript">
-    var table = document.getElementById("myTable");
-    var rows = document.getElementsByTagName("tr");
-    for (i = 1; i < rows.length; i++) {
-        var currentRow = table.rows[i];
-        currentRow.onclick = function () {
-            Array.from(this.parentElement.children).forEach(function (el) {
-                el.classList.remove('selected-row');
-            });
-            this.classList.add('selected-row');
+    //var table = document.getElementById("myTable");
+    //var rows = document.getElementsByTagName("tr");
+    //for (i = 1; i < rows.length; i++) {
+    //    var currentRow = table.rows[i];
+    //    currentRow.onclick = function () {
+    //        //console.log('It is working');
+    //        Array.from(this.parentElement.children).forEach(function (el) {
+    //            el.classList.remove('selected-row');
+    //        });
 
-        }
-    }
+    //        this.classList.Add('selected-row')
+    //    }
+    //}
     //const searchInput = document.getElementById('myTable');
 
     //searchInput.addEventListener('input', () => {

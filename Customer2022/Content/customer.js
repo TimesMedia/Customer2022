@@ -17,7 +17,7 @@ for (i = 1; i < rows.length; i++) {
 //});
 
 function tablesearch() {
-    let input, filter, td, tr, table, txtvalue;
+    let input, filter, td, tr, table, i, txtvalue;
     //console.log("is this working?");
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
