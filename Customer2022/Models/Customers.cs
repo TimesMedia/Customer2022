@@ -10,8 +10,9 @@ namespace Customer2022.Models
     {
         public int ContactID { get; set; }
         [DisplayName("Customer Name")]
-        public string Name { get; set; }
-        public string Mobile { get; set; }
-        public string  Address  { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
+        public string Subscription  { get; set; }
+        public int Invoice { get; set; }
     }
 }

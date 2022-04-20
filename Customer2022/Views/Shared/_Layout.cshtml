@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" href="Site.css" />
     <title>@ViewBag.Title - Arena Dashboard</title>
     @Styles.Render("~/Content/Site.css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/bootstrap-theme.css")
+    @Scripts.Render("~/Content/modernizr")
 </head>
 <body>
    
@@ -22,6 +24,8 @@
     @Scripts.Render("~/Content/customer.js")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>

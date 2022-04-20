@@ -20,7 +20,7 @@ namespace Customer2022.Controllers
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
                 sqlcon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT * from Contact", sqlcon);
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT * from Contacts", sqlcon);
                 sqlDa.Fill(dtblCustomer);
             }
             return View(dtblCustomer);
@@ -38,16 +38,17 @@ namespace Customer2022.Controllers
         [HttpPost]
         public ActionResult Create(Customers customers)
         {
-
             // TODO: Add insert logic here
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
                 sqlcon.Open();
-                string query = " INSERT INTO Contact VALUES(@Name,@Mobile,@Address)";
+                string query = " INSERT INTO Contacts VALUES(@ContactID,@FirstName,@Surname,@Subscription,@Invoice)";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
-                sqlcmd.Parameters.AddWithValue("@Name", customers.Name);
-                sqlcmd.Parameters.AddWithValue("@Mobile", customers.Mobile);
-                sqlcmd.Parameters.AddWithValue("@Address", customers.Address);
+                sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
+                sqlcmd.Parameters.AddWithValue("@FirstName", customers.FirstName);
+                sqlcmd.Parameters.AddWithValue("@Surname", customers.Surname);
+                sqlcmd.Parameters.AddWithValue("@Subscription", customers.Subscription);
+               sqlcmd.Parameters.AddWithValue("@Invoice", customers.Invoice);
                 sqlcmd.ExecuteNonQuery();
             }
             return RedirectToAction("Index");
@@ -61,7 +62,7 @@ namespace Customer2022.Controllers
         DataTable dtblcus = new DataTable();
         using(SqlConnection sqlcon = new SqlConnection(connectionString)){
                 sqlcon.Open();
-                string query = "SELECT * From Contact Where ContactID = @ContactID";
+                string query = "SELECT * From Contacts Where ContactID = @ContactID";
                 SqlDataAdapter sqlDa = new SqlDataAdapter(query,sqlcon);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@ContactID",id);
                 sqlDa.Fill(dtblcus);
@@ -69,9 +70,10 @@ namespace Customer2022.Controllers
             if(dtblcus.Rows.Count == 1)
             {
                 customermodel.ContactID = Convert.ToInt32(dtblcus.Rows[0][0].ToString());
-                customermodel.Name = dtblcus.Rows[0][1].ToString();
-                customermodel.Mobile = dtblcus.Rows[0][2].ToString();
-                customermodel.Address = dtblcus.Rows[0][3].ToString();
+                customermodel.FirstName = dtblcus.Rows[0][1].ToString();
+                customermodel.Surname = dtblcus.Rows[0][2].ToString();
+                customermodel.Subscription = dtblcus.Rows[0][3].ToString();
+                
                 return View(customermodel);
             }
             else
@@ -85,12 +87,13 @@ namespace Customer2022.Controllers
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
                 sqlcon.Open();
-                string query = "UPDATE Contact SET Name = @Name, Mobile = @Mobile, Address = @Address WHere ContactID = @ContactID";
+                string query = "UPDATE Contacts SET  ContactID = @ContactID, FirstName = @FirstName, Surname = @Surname, Subscription = @Subscription, Invoice = @Invoice WHere ContactID = @ContactID";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
                 sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
-                sqlcmd.Parameters.AddWithValue("@Name", customers.Name);
-                sqlcmd.Parameters.AddWithValue("@Mobile", customers.Mobile);
-                sqlcmd.Parameters.AddWithValue("@Address", customers.Address);
+                sqlcmd.Parameters.AddWithValue("@FirstName", customers.FirstName);
+                sqlcmd.Parameters.AddWithValue("@Surname", customers.Surname);
+                sqlcmd.Parameters.AddWithValue("@Subscription", customers.Subscription);
+                sqlcmd.Parameters.AddWithValue("@Invoice", customers.Invoice);
                 sqlcmd.ExecuteNonQuery();
             }
             return RedirectToAction("Index");
@@ -102,7 +105,7 @@ namespace Customer2022.Controllers
             using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
                 sqlcon.Open();
-                string query = "DELETE From Contact  WHere ContactID = @ContactID";
+                string query = "DELETE From Contacts  WHere ContactID = @ContactID";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
                 sqlcmd.Parameters.AddWithValue("@ContactID",id);
               
@@ -110,7 +113,17 @@ namespace Customer2022.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        
+        [HttpGet]
+        public ActionResult View(int id)
+        {
+            DataTable dtblCustomer = new DataTable();
+            using (SqlConnection sqlcon = new SqlConnection(connectionString))
+            {
+                sqlcon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT Invoice from Contacts", sqlcon);
+                sqlDa.Fill(dtblCustomer);
+            }
+            return View(dtblCustomer);
+        }
     }
 }

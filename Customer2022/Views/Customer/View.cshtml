@@ -1,0 +1,31 @@
+﻿@model System.Data.DataTable
+
+<h1 align="center"><b>Customer Details</b></h1>
+<p>
+    @Html.ViewBag.Message
+</p>
+<table class="table table-bordered table-striped" id="myTable">
+
+    <tr>
+
+        <th>Invoice</th>
+    </tr>
+
+    @for (int i = 0; i < Model.Rows.Count; i++) { 
+        <tr>
+            <td>@Model.Rows[i][0]</td>
+        </tr>
+    }
+
+</table>
+<br />
+<br />
+<hr />
+<table class="table table-bordered table-striped" id="myTable">
+    <tr>
+        <td>
+            @Html.ActionLink("Home", "Index", "Login")
+
+        </td>
+    </tr>
+</table>
