@@ -5,15 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using Customer2022.Models;
 using System.Data.SqlClient;
+using System.Data;
 
 
 namespace Customer2022.Controllers
 {   
     public class LoginController : Controller
     {
+        string connectionString = @"Data Source=.\SQLEXPRESS; Database=ASPCRUD;Integrated Security=True";
         SqlConnection con = new SqlConnection();
-        //SqlCommand com = new SqlCommand();
-        //SqlDataReader dr;
+        SqlCommand com = new SqlCommand();
+        SqlDataReader dr;
         // GET: Login
         [HttpGet]
         public ActionResult Index()
@@ -21,45 +23,53 @@ namespace Customer2022.Controllers
             return View();
         }
 
-        void connectionString()
+       
+        public ActionResult Index(Customers user)
         {
-            con.ConnectionString = @"Data Source=.\SQLEXPRESS; Database=ASPCRUD;Integrated Security=True";
+
+            return View();
+
         }
-        //public ActionResult Verify(Usermodel user)
-        //{
-        //    connectionString();
-        //    con.Open();
-        //    com.Connection = con;
-        //    com.CommandText = "select * from Members where Username = '"+ user.Username+"' and Password ='"+user.Password+"' " ;
-        //    dr = com.ExecuteReader();
-        //    if (dr.Read())
-        //    {
-        //        con.Close();
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        con.Close();
-        //        return View();
-        //    }
-           
-        //}
-        
-        [HttpPost]
-        public ActionResult Index(Usermodel user)
 
+
+        //GET: Customer/ResetPassword
+        public ActionResult ResetPassword()
         {
-
-            if (user.Username == "Username" && user.Password == "Password")
+            Customers customermodel = new Customers();
+            DataTable dtblcus = new DataTable();
+            using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
-                ViewBag.Message = "Login Successful";
-                return View("Processlogin");
+                sqlcon.Open();
+                string query = "SELECT * From Contact Where ContactID = @ContactID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlcon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@ContactID", customermodel.ContactID);
+                sqlDa.Fill(dtblcus);
+            }
+            if (dtblcus.Rows.Count == 1)
+            {
+                customermodel.ContactID = Convert.ToInt32(dtblcus.Rows[0][0].ToString());
+                customermodel.Password = dtblcus.Rows[0][1].ToString();
+
+                return View(customermodel);
             }
             else
+                return RedirectToAction("Resetpassword");
+        }
+
+        //POST: Customer/ResetPassword
+        [HttpPost]
+        public ActionResult ResetPassword(Customers customers)
+        {
+            using (SqlConnection sqlcon = new SqlConnection(connectionString))
             {
-                ViewBag.Message = "Login failed";
-                return View("Index");
+                sqlcon.Open();
+                string query = "UPDATE Contact SET  ContactID = @ContactID, Password =@Password WHere ContactID = @ContactID";
+                SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
+                sqlcmd.Parameters.AddWithValue("@Password", customers.Password);
+                sqlcmd.ExecuteNonQuery();
             }
+            return View();
         }
     }
 }

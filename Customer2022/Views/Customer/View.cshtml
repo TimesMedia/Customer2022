@@ -1,30 +1,36 @@
 ﻿@model System.Data.DataTable
 
-<h1 align="center"><b>Customer Details</b></h1>
+<h1 align="center"><b>Full Details</b></h1>
 <p>
     @Html.ViewBag.Message
 </p>
 <table class="table table-bordered table-striped" id="myTable">
-
     <tr>
-
+        <th>FirstName</th>
+        <th>Surname</th>
         <th>Invoice</th>
+        <th>Password</th>
     </tr>
 
-    @for (int i = 0; i < Model.Rows.Count; i++) { 
+    @for (int i = 0; i < Model.Rows.Count; i++)
+    {
         <tr>
             <td>@Model.Rows[i][0]</td>
+            <td>@Model.Rows[i][1]</td>
+            <td>@Model.Rows[i][2]</td>
+            <td>@Model.Rows[i][3]</td>
         </tr>
-    }
+        
+        }
 
-</table>
+    </table>
 <br />
 <br />
 <hr />
 <table class="table table-bordered table-striped" id="myTable">
     <tr>
         <td>
-            @Html.ActionLink("Home", "Index", "Login")
+            @Html.ActionLink("Back", "Index", "Customer")
 
         </td>
     </tr>

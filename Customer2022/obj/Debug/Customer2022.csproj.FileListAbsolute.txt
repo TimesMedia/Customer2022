@@ -151,8 +151,12 @@ C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\System.Web.WebPa
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\Newtonsoft.Json.xml
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\Antlr3.Runtime.pdb
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.csproj.AssemblyReference.cache
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.csproj.CoreCompileInputs.cache
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.csproj.CopyComplete
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.dll
 C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.pdb
+C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\EntityFramework.dll
+C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\EntityFramework.SqlServer.dll
+C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\EntityFramework.xml
+C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\bin\EntityFramework.SqlServer.xml
+C:\Users\nhlapot\Documents\GitHub\Customer2022\Customer2022\obj\Debug\Customer2022.csproj.AssemblyReference.cache
