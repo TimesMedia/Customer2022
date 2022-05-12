@@ -16,7 +16,13 @@ namespace Customer2022.Controllers
     {
         ASPCRUDEntities2 db = new ASPCRUDEntities2();
         SqlConnection con = new SqlConnection();
-        string connectionString = @"Data Source=.\SQLEXPRESS; Database=ASPCRUD;Integrated Security=True";
+
+        //global::Customer2022.Properties.Settings.Default.ConnectionString
+
+
+        string connectionString = @"Data Source=PKLDEV01\SQLEXPRESS;Initial Catalog=CustomersDashBoard;User ID=Tebello7;Password=P@ssw0rd01;"
+                                  + "Enlist=False;Pooling=True;Max Pool Size=10;Connect Timeout=100";
+
         [HttpGet]
         public ActionResult Index()
         {

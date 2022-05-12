@@ -12,7 +12,8 @@ namespace Customer2022.Controllers
 {
     public class CustomerController : Controller
     {
-        string connectionString = @"Data Source=.\SQLEXPRESS; Database=ASPCRUD;Integrated Security=True";
+        string connectionString = @"Data Source=PKLDEV01\SQLEXPRESS;Initial Catalog=CustomersDashBoard;User ID=Tebello7;Password=P@ssw0rd01;"
+                                  + "Enlist=False;Pooling=True;Max Pool Size=10;Connect Timeout=100";
 
         [HttpGet]
         public ActionResult Index()
