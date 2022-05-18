@@ -2,12 +2,10 @@
 var rows = document.getElementsByTagName("tr");
 for (i = 1; i < rows.length; i++) {
     var currentRow = table.rows[i];
-    currentRow.onclick = function () {
-        Array.from(this.parentElement.children).forEach(function (el) {
+    currentRow.onclick = function () {Array.from(this.parentElement.children).forEach(function (el) {
             el.classList.remove('selected-row');
         });
         this.classList.add('selected-row');
-
     }
 }
 //const searchInput = document.getElementById('myTable');
@@ -18,7 +16,7 @@ for (i = 1; i < rows.length; i++) {
 
 function tablesearch() {
     let input, filter, td, tr, table, i, txtvalue;
-    //console.log("is this working?");
+    console.log("is this working?");
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");

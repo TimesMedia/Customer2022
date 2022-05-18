@@ -1,4 +1,6 @@
-﻿@model System.Data.DataTable
+﻿@using Customer2022.Models;
+@model  List<Customer>
+
 
 @{
     ViewBag.Title = "Index";
@@ -13,23 +15,27 @@
     </tr>
 
     <tr>
+        <th>ContactID</th>
+        <th>Initials</th>
         <th>FirstName</th>
         <th>Surname</th>
-        <th>Subscription</th>
-
+        <th>Address1</th>
     </tr>
-    @for (int i = 0; i < Model.Rows.Count; i++)
+    @foreach (Customer lCustomer in Model )
     {
         <tr>
-            @*<td>@Model.Rows[i][0]</td>*@
-                <td>@Model.Rows[i][1]</td>
-                <td>@Model.Rows[i][2]</td>
-                <td>@Model.Rows[i][3]</td>
+           
+                <td>@lCustomer.ContactID</td>
+                <td>@lCustomer.Initials</td>
+                <td>@lCustomer.FirstName</td>
+                <td>@lCustomer.Surname</td>
+                <td>@lCustomer.Address1</td>
+                
             <td>
-                <a href="@Url.Action("Create","Customer", new { @id = Model.Rows[i][0] })">Register</a>
-                <a href="@Url.Action("Edit","Customer", new {@id=Model.Rows[i][0]})">Update</a>
-                <a href="@Url.Action("Delete","Customer", new {@id=Model.Rows[i][0]})">Delete</a>
-                <a href="@Url.Action("View","Customer", new {@id=Model.Rows[i][0]} )">View</a>
+                <a href="@Url.Action("Create","Customer", new { @id = @lCustomer.ContactID })">Register</a>
+                <a href="@Url.Action("Edit","Customer", new {@id = @lCustomer.ContactID })">Update</a>
+                <a href="@Url.Action("Delete","Customer", new {@id = @lCustomer.ContactID })">Delete</a>
+                <a href="@Url.Action("View","Customer", new { @id = lCustomer.ContactID })">View</a>
             </td>
         </tr>
     }

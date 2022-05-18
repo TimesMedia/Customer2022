@@ -20,9 +20,9 @@ namespace Customer2022.Controllers
         //global::Customer2022.Properties.Settings.Default.ConnectionString
 
 
-        string connectionString = @"Data Source=PKLDEV01\SQLEXPRESS;Initial Catalog=CustomersDashBoard;User ID=Tebello7;Password=P@ssw0rd01;"
-                                  + "Enlist=False;Pooling=True;Max Pool Size=10;Connect Timeout=100";
-
+        //string connectionString = @"Data Source=PKLDEV01\SQLEXPRESS;Initial Catalog=Customersdashboard;User ID=Tebello7;Password=P@ssw0rd01;"
+        //                          + "Enlist=False;Pooling=True;Max Pool Size=10;Connect Timeout=100";
+        string connectionString = @"Data Source=IT-RBK-099\\SQLEXPRESS; Initial Catalog= ASPCRUD; Integrated Security = true ";
         [HttpGet]
         public ActionResult Index()
         {
@@ -30,46 +30,46 @@ namespace Customer2022.Controllers
         }
         
         [HttpPost]
-        public ActionResult Index(Customers user)
-        {
-            bool isUserExists = db.Contacts.Any(u => u.Username == user.Username && u.Password == user.Password);
-            if (isUserExists)
-            {
-                Session["ContactID"] = db.Contacts.Where(u => u.Username == user.Username && u.Password == user.Password).Single().ContactId;
-                return View("dashboard");
-            }
-            else
-            {
-                ViewBag.Fail = "Ooops, invalid Credentials";
+        //public ActionResult Index(Customer user)
+        //{
+        //   // bool isUserExists = db.Contacts.Any(u => u.Username == user.Username && u.Password == user.Password1);
+        ////    if (isUserExists)
+        ////    {
+        ////        Session["ContactID"] = db.Contacts.Where(u => u.Username == user.Username && u.Password == user.Password1).Single().ContactId;
+        ////        return View("dashboard");
+        ////    }
+        ////    else
+        ////    {
+        ////        ViewBag.Fail = "Ooops, invalid Credentials";
                 
-            }
-            return View();
-        }
-        //GET: Customer/ResetPassword
-        public ActionResult ResetPassword()
-        {
-            return View();
-        }
+        ////    }
+        ////    return View();
+        ////}
+        ////GET: Customer/ResetPassword
+        //public ActionResult ResetPassword()
+        //{
+        //    return View();
+        //}
 
         //POST: Customer/ResetPassword
-        [HttpPost]
-        public ActionResult ResetPassword(ResetPasswordVM rp)
-        {
-            int uid = Convert.ToInt32(Session["ContactID"]);
-            Contact u = db.Contacts.Find(uid);
-            if (u.Password == rp.NewPassword)
-            {
-                u.Password = rp.NewPassword;
-                db.Entry(u).State = EntityState.Modified;
-                db.SaveChanges();
-                ViewBag.Message = " Your Password is updated";
-            }
-            else 
-            { 
-                ViewBag.Message = "Invalid Current Password"; 
-            }
-            return View("dashboard");
-        }
+        //[HttpPost]
+        //public ActionResult ResetPassword(ResetPasswordVM rp)
+        //{
+        //    int uid = Convert.ToInt32(Session["ContactID"]);
+        //    Contact u = db.Contacts.Find(uid);
+        //    if (u.Password == rp.NewPassword)
+        //    {
+        //        u.Password = rp.NewPassword;
+        //        db.Entry(u).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        ViewBag.Message = " Your Password is updated";
+        //    }
+        //    else 
+        //    { 
+        //        ViewBag.Message = "Invalid Current Password"; 
+        //    }
+        //    return View("dashboard");
+        //}
 
         public ActionResult dashboard()
         {

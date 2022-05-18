@@ -1,0 +1,17 @@
+﻿@model Customer2022.Models.User
+@{
+    ViewBag.Title = "Dashboard";
+}
+<h1>Loggin Successful</h1>
+<div>
+    <p>
+        @Html.ViewBag.Message
+    </p>
+</div>
+
+<div>
+    <h2>
+        @Html.ActionLink("Dashboard", "Index", "Customer")
+        
+    </h2>
+</div>
