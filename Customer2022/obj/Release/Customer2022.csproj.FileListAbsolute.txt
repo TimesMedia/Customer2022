@@ -163,3 +163,4 @@ C:\CSharp\Customer2022\Customer2022\obj\Release\Customer2022.csproj.CoreCompileI
 C:\CSharp\Customer2022\Customer2022\obj\Release\Customer2022.csproj.CopyComplete
 C:\CSharp\Customer2022\Customer2022\obj\Release\Customer2022.dll
 C:\CSharp\Customer2022\Customer2022\obj\Release\Customer2022.pdb
+C:\CSharp\Customer2022\Customer2022\obj\Release\Customer2022.csproj.AssemblyReference.cache

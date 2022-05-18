@@ -12,11 +12,9 @@ namespace Customer2022.Controllers
 {
     public class CustomerController : Controller
     {
-        readonly string gConnectionString = global::Customer2022.Properties.Settings.Default.ConnectionString;
-        //string connectionString = @"Data Source=PKLDEV01\SQLEXPRESS;Initial Catalog=Customersdashboard;User ID=Tebello7;Password=P@ssw0rd01;"
-                                 // + "Enlist=False;Pooling=True;Max Pool Size=10;Connect Timeout=100";
-
-        //string connectionString = "Data Source=IT-RBK-099\\SQLEXPRESS; Initial Catalog= ASPCRUD; Integrated Security = true ";
+        private readonly string gConnectionString = global::Customer2022.Properties.Settings.Default.ConnectionString;
+        
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,6 +25,8 @@ namespace Customer2022.Controllers
             lCustomerTable.Columns.Add("Surname", typeof(string));
             lCustomerTable.Columns.Add("Address1", typeof(string));
             
+           // gCustomerTable.PrimaryKey[0] = gCustomerTable.Columns[0];
+            
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 sqlcon.Open();
@@ -34,13 +34,14 @@ namespace Customer2022.Controllers
                 sqlDa.Fill(lCustomerTable);
             }
 
-            List<Customer> lCustomerModel = new List<Customer>();
+            List<Customer> lCustomers = new List<Customer>();
             foreach (DataRow lRow in lCustomerTable.Rows) {
 
-                lCustomerModel.Add(new Customer() { ContactID = (int)lRow[0], Initials = lRow[1].ToString(),FirstName = lRow[2].ToString(), Surname = lRow[3].ToString(), Address1 = lRow[4].ToString()});
+                lCustomers.Add(new Customer() { ContactID = (int)lRow[0], Initials = lRow[1].ToString(),FirstName = lRow[2].ToString(), 
+                    Surname = lRow[3].ToString(), Address1 = lRow[4].ToString()});
             }
 
-            return View(lCustomerModel);
+            return View(lCustomers);
         }
 
 
@@ -66,53 +67,84 @@ namespace Customer2022.Controllers
                 sqlcmd.Parameters.AddWithValue("@FirstName", customers.FirstName);
                 sqlcmd.Parameters.AddWithValue("@Surname", customers.Surname);
                 sqlcmd.Parameters.AddWithValue("@Address1", customers.Address1);
-                sqlcmd.Parameters.AddWithValue("@EmailAddress", customers.EmailAddress);
-                sqlcmd.Parameters.AddWithValue("@PhoneNumber", customers.PhoneNumber);
+                //sqlcmd.Parameters.AddWithValue("@EmailAddress", customers.EmailAddress);
+                //sqlcmd.Parameters.AddWithValue("@PhoneNumber", customers.PhoneNumber);
                 sqlcmd.ExecuteNonQuery();
             }
             return RedirectToAction("Index");
         }
 
-        // GET: Customer/Edit/5
-        public ActionResult Edit(int id)
+       [HttpGet]
+        public ActionResult Edit(int pId = 0)
         {
-            Customer customermodel = new Customer();
-            DataTable dtblcus = new DataTable();
+            DataTable lCustomerTable = new DataTable();
+
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 sqlcon.Open();
-                string query = "SELECT * From Customer Where 'ContactID' = @CustomerId";
-                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlcon);
-                sqlDa.SelectCommand.Parameters.AddWithValue("@CustomerId", id.ToString());
-                sqlDa.Fill(dtblcus);
+                string query = "SELECT CustomerId, Initials, FirstName, Surname, Address1 From Customer Where CustomerId = " + pId;
+                SqlDataAdapter gCustomerAdapter = new SqlDataAdapter(query, sqlcon);
+                //gCustomerAdapter.SelectCommand.Parameters.AddWithValue("@CustomerId", id.ToString());
+              
+                gCustomerAdapter.Fill(lCustomerTable);
             }
-            if (dtblcus.Rows.Count == 1)
-            {
-                customermodel.ContactID = Convert.ToInt32(dtblcus.Rows[0][0].ToString());
-                customermodel.Initials = dtblcus.Rows[0][1].ToString();
-                customermodel.Surname = dtblcus.Rows[0][2].ToString();
-                customermodel.Subscription = dtblcus.Rows[0][3].ToString();
 
-                return View(customermodel);
-            }
-            else
-                return RedirectToAction("Index");
+            Customer lCustomer = new Customer();
+            lCustomer.ContactID = Convert.ToInt32(lCustomerTable.Rows[0][0].ToString());
+            lCustomer.Initials = lCustomerTable.Rows[0][1].ToString();
+            lCustomer.FirstName = lCustomerTable.Rows[0][2].ToString();
+            lCustomer.Surname = lCustomerTable.Rows[0][3].ToString();
+            lCustomer.Address1 = lCustomerTable.Rows[0][4].ToString();
+            return View("Edit", lCustomer);
+   
         }
 
         //POST: Customer/Edit/5
         [HttpPost]
-        public ActionResult Edit(Customer customers)
+        public ActionResult Edit(Customer pCustomer)
         {
+            DataTable lCustomerTable = new DataTable();
+            SqlDataAdapter lCustomerAdapter;
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 sqlcon.Open();
-                string query = "UPDATE Customer SET  ContactID = @ContactID, Password1 = @Password1 WHere ContactID = @ContactID";
-                SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
-                sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
-                sqlcmd.Parameters.AddWithValue("@Password1", customers.Password1);
-              
-                sqlcmd.ExecuteNonQuery();
+                string query = "SELECT CustomerId, Initials, FirstName, Surname, Address1 From Customer Where CustomerId = " + pCustomer.ContactID;
+                lCustomerAdapter = new SqlDataAdapter(query, sqlcon);
+                lCustomerAdapter.Fill(lCustomerTable);
             }
+
+            lCustomerTable.Rows[0][1] = pCustomer.Initials;
+            lCustomerTable.Rows[0][2] = pCustomer.FirstName;
+            lCustomerTable.Rows[0][3] = pCustomer.Surname;
+            lCustomerTable.Rows[0][4] = pCustomer.Address1;
+
+            using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
+            {
+                sqlcon.Open();
+                string lCommandText = "UPDATE Customer SET Initials = @Initials, "
+                    + "FirstName = @FirstName," 
+                    + "Surname = @FirstName," 
+                    + "Address1 = @Address1" 
+                    + " Where CustomerId = @ContactID";
+                SqlCommand lCommand = new SqlCommand(lCommandText, sqlcon);
+                lCommand.Parameters.AddWithValue("@ContactID", pCustomer.ContactID);
+                lCommand.Parameters.AddWithValue("@Initials", pCustomer.Initials);
+                lCommand.Parameters.AddWithValue("@FirstName", pCustomer.FirstName); 
+                lCommand.Parameters.AddWithValue("@Surname", pCustomer.Surname);
+                lCommand.Parameters.AddWithValue("@Address1", pCustomer.Address1);
+                lCustomerAdapter = new SqlDataAdapter();
+                lCustomerAdapter.UpdateCommand = lCommand;
+                lCustomerAdapter.Update(lCustomerTable);
+            }
+
+                //sqlcon.Open();
+                //string query = "UPDATE Customer SET  ContactID = @ContactID, Password1 = @Password1 WHere ContactID = @ContactID";
+                //SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
+                //sqlcmd.Parameters.AddWithValue("@ContactID", pCustomer.ContactID);
+                //sqlcmd.Parameters.AddWithValue("@Password1", pCustomer.Password1);
+              
+                //sqlcmd.ExecuteNonQuery();
+
             return RedirectToAction("Index");
         }
 
@@ -133,30 +165,30 @@ namespace Customer2022.Controllers
 
             
         }
-        [HttpGet]
-        public ActionResult View()
-        {
-            DataTable lCustomerTable = new DataTable();
-            lCustomerTable.Columns.Add("ContactID", typeof(int));
-            lCustomerTable.Columns.Add("Surname", typeof(string));
-            lCustomerTable.Columns.Add("EmailAddress", typeof(string));
-            lCustomerTable.Columns.Add("ProductName", typeof(string));
-            using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
-            {
-                sqlcon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
-                sqlDa.Fill(lCustomerTable);
-            }
+        //[HttpGet]
+        //public ActionResult View()
+        //{
+        //    DataTable lCustomerTable = new DataTable();
+        //    lCustomerTable.Columns.Add("ContactID", typeof(int));
+        //    lCustomerTable.Columns.Add("Surname", typeof(string));
+        //    lCustomerTable.Columns.Add("EmailAddress", typeof(string));
+        //    lCustomerTable.Columns.Add("ProductName", typeof(string));
+        //    using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
+        //    {
+        //        sqlcon.Open();
+        //        SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
+        //        sqlDa.Fill(lCustomerTable);
+        //    }
 
-            List<Customer> lCustomerModel = new List<Customer>();
-            foreach (DataRow lRow in lCustomerTable.Rows)
-            {
+        //    List<Customer> lCustomerModel = new List<Customer>();
+        //    foreach (DataRow lRow in lCustomerTable.Rows)
+        //    {
 
-                lCustomerModel.Add(new Customer() { ContactID = (int)lRow[0], Surname = lRow[1].ToString(), EmailAddress= lRow[2].ToString(), ProductName = lRow[3].ToString() });
-            }
+        //        lCustomerModel.Add(new Customer() { ContactID = (int)lRow[0], Surname = lRow[1].ToString(), EmailAddress= lRow[2].ToString(), ProductName = lRow[3].ToString() });
+        //    }
 
-            return View(lCustomerModel);
-        }
+        //    return View(lCustomerModel);
+        //}
         //GET: Customer/ResetPassword
         public ActionResult ResetPassword()
         {
