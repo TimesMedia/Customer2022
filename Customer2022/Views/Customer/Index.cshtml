@@ -32,12 +32,12 @@
                 <td>@lCustomer.Surname</td>
                 <td>@lCustomer.Address1</td>
                 
-            <td>
-                <a href="@Url.Action("Create","Customer", new { @id = @lCustomer.ContactID })">Register</a>
-                <a href="@Url.Action("Edit","Customer", new {pId = @lCustomer.ContactID })">Update</a>
-                <a href="@Url.Action("Delete","Customer", new {@id = @lCustomer.ContactID })">Delete</a>
-                <a href="@Url.Action("View","Customer", new { @id = lCustomer.ContactID })">View</a>
-            </td>
+                <td>
+                    @*// <a href="@Url.Action("Create","Customer", new { @id = @lCustomer.ContactID })">Register</a>*@
+                    <a href="@Url.Action("Edit","Customer", new {pId = @lCustomer.ContactID })">Update</a>
+                    <a href="@Url.Action("Delete","Customer", new {@id = @lCustomer.ContactID })">Delete</a>
+                    <a href="@Url.Action("View","Customer", new { @id = lCustomer.ContactID })">View</a>
+                </td>
         </tr>
     }
 </table>
@@ -47,16 +47,16 @@
 <table class="table table-bordered table-striped" id="myTable">
     <tr>
         <td>
-            @Html.ActionLink("Home", "Index", "Login")
+            @Html.ActionLink("Home", "dashboard", "Home")
 
         </td>
         <td>
             @Html.ActionLink("ResetPassword", "ResetPassword", "Home")
 
         </td>
-        @*<td>
-            @Html.ActionLink("Register", "Register", "Customer")
-        </td>*@
+        <td>
+            @Html.ActionLink("Register", "Create", "Customer")
+        </td>
     </tr>
 </table>
 

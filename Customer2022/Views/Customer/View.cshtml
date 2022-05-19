@@ -1,6 +1,7 @@
 ﻿@using Customer2022.Models;
+
 @*@model  List<Customer>*@
-@model  Customer
+@model  List<Customer>
 
 <!DOCTYPE html>
 <html>
@@ -10,8 +11,6 @@
  
         <!-- Mobile Metas -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
     </head>
     <body>
         <p>
@@ -20,24 +19,37 @@
 
         @using (Html.BeginForm())
         {
-            <table id="myTable">
+    <table class="table table-bordered table-striped" id="myTable">
+        <tr>
+            <th>ContactID</th>
+            <th>Surname</th>
+            <th>ProductName</th>
+            <th>EmailAddress</th>
+        </tr>
+        @foreach (Customer lCustomer in Model)
+        {
+        <tr>
+            <td>@lCustomer.ContactID</td>
+            <td>@lCustomer.Surname</td>
+            <td>@lCustomer.ProductName</td>
+            <td>@lCustomer.EmailAddress</td>
+            
+        </tr>
+        }
+
+    </table>
+            <hr />
+
+            <table>
                 <tr>
-                    <th>ContactID</th>
-                    <th>Initials</th>
-                    <th>FirstName</th>
-                    <th>Surname</th>
-                    <th>Address1</th>
+                    <td>
+                        @Html.ActionLink("Home", "Index", "Home")
+
+                    </td>
                 </tr>
-                <tr>
-                    <td>@Model.ContactID</td>
-                    <td>@Model.Initials</td>
-                    <td>@Model.FirstName</td>
-                    <td>@Model.Surname</td>
-                    <td>@Model.Address1</td>
-                </tr>
-            </table>
-            <br/>
-            <button type="submit">Submit</button>}
+             </table>
+
+        }
     </body>
 </html>
 

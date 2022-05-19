@@ -60,15 +60,29 @@ namespace Customer2022.Controllers
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 sqlcon.Open();
-                string query = "INSERT INTO Customer VALUES(@ContactID,@Initials,@FirstName,@Surname,@Address1,@EmailAddress,@PhoneNumber)";
+                string query = "INSERT INTO Customer (Initials, FirstName, Surname, Address1, EmailAddress, CompanyId, PhoneNumber, ModifiedBy, ModifiedOn, CountryId) VALUES(@Initials, @FirstName, @Surname, @Address1, @EmailAddress, @CompanyId, @PhoneNumber, @ModifiedBy, @ModifiedOn, @CountryId) INSERT INTO DeliveryAddress(Province,City,Suburb,Street,StreetExtension,StreetNo,PostCode,Verified, ModifiedOn,CountryId,ModifiedBy,DeliveryAddressId)VALUES(@DeliveryAddressId,@Province,@City,@Suburb,@Street,@StreetExtension,@StreetNo,@PostCode,@Verified, @ModifiedOn,@CountryId,@ModifiedBy)";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
-                sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
+                //sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
                 sqlcmd.Parameters.AddWithValue("@Initials", customers.Initials);
                 sqlcmd.Parameters.AddWithValue("@FirstName", customers.FirstName);
                 sqlcmd.Parameters.AddWithValue("@Surname", customers.Surname);
                 sqlcmd.Parameters.AddWithValue("@Address1", customers.Address1);
-                //sqlcmd.Parameters.AddWithValue("@EmailAddress", customers.EmailAddress);
-                //sqlcmd.Parameters.AddWithValue("@PhoneNumber", customers.PhoneNumber);
+               sqlcmd.Parameters.AddWithValue("@EmailAddress", customers.EmailAddress);
+                sqlcmd.Parameters.AddWithValue("@CompanyId", customers.CompanyId);
+                sqlcmd.Parameters.AddWithValue("@PhoneNumber", customers.PhoneNumber);
+                sqlcmd.Parameters.AddWithValue("@ModifiedBy", customers.ModifiedBy);
+                sqlcmd.Parameters.AddWithValue("@ModifiedOn", customers.ModifiedOn.Date);
+                sqlcmd.Parameters.AddWithValue("@CountryId", customers.CountryId);
+                sqlcmd.Parameters.AddWithValue("@DeliveryAddressId", customers.DeliveryAddressId);
+                sqlcmd.Parameters.AddWithValue("@Province", customers.Province);
+                sqlcmd.Parameters.AddWithValue("@City", customers.City);
+                sqlcmd.Parameters.AddWithValue("@Suburb", customers.Suburb);
+                sqlcmd.Parameters.AddWithValue("@Street", customers.Street);
+                sqlcmd.Parameters.AddWithValue("@StreetExtension", customers.StreetExtension);
+                sqlcmd.Parameters.AddWithValue("@PostCode", customers.PostCode);
+                sqlcmd.Parameters.AddWithValue("@StreetNo", customers.StreetNo);
+                sqlcmd.Parameters.AddWithValue("@Verified", customers.Verified);
+
                 sqlcmd.ExecuteNonQuery();
             }
             return RedirectToAction("Index");
@@ -164,65 +178,37 @@ namespace Customer2022.Controllers
             return RedirectToAction("Index");
 
             
-        }
-<<<<<<< HEAD
-        [HttpGet]
-        public ActionResult View(int id)
-        {
-            DataTable lCustomerTable = new DataTable();
-            lCustomerTable.Columns.Add("ContactID", typeof(int));
-            lCustomerTable.Columns.Add("Surname", typeof(string));
-            lCustomerTable.Columns.Add("EmailAddress", typeof(string));
-            lCustomerTable.Columns.Add("ProductName", typeof(string));
-            using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
-            {
-                sqlcon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
-                sqlDa.Fill(lCustomerTable);
+      
             }
-||||||| 4b4da9e
-        [HttpGet]
-        public ActionResult View()
-        {
-            DataTable lCustomerTable = new DataTable();
-            lCustomerTable.Columns.Add("ContactID", typeof(int));
-            lCustomerTable.Columns.Add("Surname", typeof(string));
-            lCustomerTable.Columns.Add("EmailAddress", typeof(string));
-            lCustomerTable.Columns.Add("ProductName", typeof(string));
-            using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
-            {
-                sqlcon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
-                sqlDa.Fill(lCustomerTable);
-            }
-=======
-        //[HttpGet]
-        //public ActionResult View()
-        //{
-        //    DataTable lCustomerTable = new DataTable();
-        //    lCustomerTable.Columns.Add("ContactID", typeof(int));
-        //    lCustomerTable.Columns.Add("Surname", typeof(string));
-        //    lCustomerTable.Columns.Add("EmailAddress", typeof(string));
-        //    lCustomerTable.Columns.Add("ProductName", typeof(string));
-        //    using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
-        //    {
-        //        sqlcon.Open();
-        //        SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
-        //        sqlDa.Fill(lCustomerTable);
-        //    }
->>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5
+            //||||||| 4b4da9e
+           
+                [HttpGet]
+                public ActionResult View()
+                {
+                    DataTable lCustomerTable = new DataTable();
+                    lCustomerTable.Columns.Add("ContactID", typeof(int));
+                    lCustomerTable.Columns.Add("Surname", typeof(string));
+                    lCustomerTable.Columns.Add("EmailAddress", typeof(string));
+                    lCustomerTable.Columns.Add("ProductName", typeof(string));
+                    using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
+                    {
+                        sqlcon.Open();
+                        SqlDataAdapter sqlDa = new SqlDataAdapter("select top 20  'ContactID' = CustomerId ,Surname,ProductName,EmailAddress from Customer inner join Product2 on CustomerId = ProductId", sqlcon);
+                        sqlDa.Fill(lCustomerTable);
+                    }
+                    //>>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5
 
-        //    List<Customer> lCustomerModel = new List<Customer>();
-        //    foreach (DataRow lRow in lCustomerTable.Rows)
-        //    {
+                    List<Customer> lCustomerModel = new List<Customer>();
+                    foreach (DataRow lRow in lCustomerTable.Rows)
+                    {
 
-        //        lCustomerModel.Add(new Customer() { ContactID = (int)lRow[0], Surname = lRow[1].ToString(), EmailAddress= lRow[2].ToString(), ProductName = lRow[3].ToString() });
-        //    }
+                        lCustomerModel.Add(new Customer() { ContactID = (int)lRow[0], Surname = lRow[1].ToString(), EmailAddress = lRow[2].ToString(), ProductName = lRow[3].ToString() });
+                    }
 
-        //    return View(lCustomerModel);
-        //}
-        //GET: Customer/ResetPassword
-        public ActionResult ResetPassword()
+                    return View(lCustomerModel);
+                }
+                //GET: Customer/ResetPassword
+                public ActionResult ResetPassword()
         {
             return View("Index");
         }

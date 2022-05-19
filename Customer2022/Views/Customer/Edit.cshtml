@@ -32,8 +32,9 @@
             @Html.LabelFor(x => x.Initials) 
             @Html.EditorFor(x => x.Initials)
         </div>
-<<<<<<< HEAD
-    </div>
+    
+@*<<<<<<< HEAD*@
+    
 
     @*<div class="form-group">
         @Html.LabelFor(model => model.Subscription, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,40 +48,43 @@
         @Html.LabelFor(model => model.Subscription, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Subscription, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Subscription, "", new { @class = "text-danger" })
-=======
+            @Html.ValidationMessageFor(model => model.Subscription, "", new { @class = "text-danger" })*@
+<!--@*=======*@-->
         <div class="dataElem">
-            @Html.LabelFor(x => x.FirstName)
+            @Html.LabelFor(x => x.FirstName)<br/>
             @Html.EditorFor(x => x.FirstName)
->>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5
+@*>>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5*@
         </div>
-<<<<<<< HEAD
-    </div>*@
+@*<<<<<<< HEAD*@
+    
 
-    @*<div class="form-group">
+    <!--<div class="form-group">
         @Html.LabelFor(model => model.Password1, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Password1, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger" })
-||||||| 4b4da9e
-    </div>
+            @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger" })-->
+        ////||||||| 4b4da9e
+    <!--</div>
 
-    @*<div class="form-group">
+    <div class="form-group">
         @Html.LabelFor(model => model.Password1, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Password1, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger" })
-=======
+            @Html.ValidationMessageFor(model => model.Password1, "", new { @class = "text-danger" })-->
+@*=======*@
         <div class="dataElem"
               @Html.LabelFor(x => x.Surname) 
-             >@Html.EditorFor(x => x.Surname)</div>
+             @Html.EditorFor(x => x.Surname)
+         </div>
+
         <div class="dataElem">
             @Html.LabelFor(x => x.Address1)
             @Html.EditorFor(x => x.Address1)
->>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5
+@*>>>>>>> 6378c03448bd7f410fabb1939ddaa7026d4930d5*@
         </div>
    
      <br />
-     <button type="submit">Update</button>}
+     <button type="submit">Update</button>
+            }
 </body>
 </html>
