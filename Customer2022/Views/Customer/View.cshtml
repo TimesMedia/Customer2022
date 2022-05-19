@@ -1,38 +1,43 @@
 ﻿@using Customer2022.Models;
-@model  List<Customer>
+@*@model  List<Customer>*@
+@model  Customer
 
-<h1 align="center"><b>Full Details</b></h1>
-<p>
-    @Html.ViewBag.Message
-</p>
-<table class="table table-bordered table-striped" id="myTable">
-    <tr>
-        <th>ContactID</th>
-        <th>Surname</th>
-        <th>ProductName</th>
-        <th>EmailAddress</th>
-    </tr>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    @foreach (Customer lCustomer in Model)
-    {
-<tr>
-    <td>@lCustomer.ContactID</td>
-    <td>@lCustomer.Surname</td>
-    <td>@lCustomer.ProductName</td>
-    <td>@lCustomer.EmailAddress</td>
-</tr>
+  
+    </head>
+    <body>
+        <p>
+            @Html.ViewBag.Message
+        </p>
 
-    }
+        @using (Html.BeginForm())
+        {
+            <table id="myTable">
+                <tr>
+                    <th>ContactID</th>
+                    <th>Initials</th>
+                    <th>FirstName</th>
+                    <th>Surname</th>
+                    <th>Address1</th>
+                </tr>
+                <tr>
+                    <td>@Model.ContactID</td>
+                    <td>@Model.Initials</td>
+                    <td>@Model.FirstName</td>
+                    <td>@Model.Surname</td>
+                    <td>@Model.Address1</td>
+                </tr>
+            </table>
+            <br/>
+            <button type="submit">Submit</button>}
+    </body>
+</html>
 
-</table>
-<br />
-<br />
-<hr />
-<table class="table table-bordered table-striped" id="myTable">
-    <tr>
-        <td>
-            @Html.ActionLink("Back", "Index", "Customer")
-
-        </td>
-    </tr>
-</table>

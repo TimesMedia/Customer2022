@@ -9,7 +9,6 @@ namespace Customer2022.Models
 {
     public class Customer
     {
-
         [Required]
         public int ContactID { get; set; }
         [DisplayName("Customer Initials")]

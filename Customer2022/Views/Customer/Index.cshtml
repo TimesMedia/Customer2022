@@ -1,4 +1,5 @@
 ﻿@using Customer2022.Models;
+
 @model  List<Customer>
 
 
@@ -33,7 +34,7 @@
                 
             <td>
                 <a href="@Url.Action("Create","Customer", new { @id = @lCustomer.ContactID })">Register</a>
-                <a href="@Url.Action("Edit","Customer", new {@id = @lCustomer.ContactID })">Update</a>
+                <a href="@Url.Action("Edit","Customer", new {pId = @lCustomer.ContactID })">Update</a>
                 <a href="@Url.Action("Delete","Customer", new {@id = @lCustomer.ContactID })">Delete</a>
                 <a href="@Url.Action("View","Customer", new { @id = lCustomer.ContactID })">View</a>
             </td>
