@@ -123,9 +123,9 @@ namespace Customer2022.Controllers
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 sqlcon.Open();
-                string query = "DELETE From Customer  WHere ContactID = @ContactID";
+                string query = "DELETE From Customer  WHere 'ContactID' = @CustomerId";
                 SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
-                sqlcmd.Parameters.AddWithValue("@ContactID", id);
+                sqlcmd.Parameters.AddWithValue("@CustomerId", Convert.ToInt32(id));
 
                 sqlcmd.ExecuteNonQuery();
             }
@@ -134,7 +134,7 @@ namespace Customer2022.Controllers
             
         }
         [HttpGet]
-        public ActionResult View()
+        public ActionResult View(int id)
         {
             DataTable lCustomerTable = new DataTable();
             lCustomerTable.Columns.Add("ContactID", typeof(int));
