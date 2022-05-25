@@ -1,0 +1,7 @@
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\bin\Debug\Customer2022.Data.dll.config
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\bin\Debug\Customer2022.Data.dll
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\bin\Debug\Customer2022.Data.pdb
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\obj\Debug\Customer2022.Data.csproj.CoreCompileInputs.cache
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\obj\Debug\Customer2022.Data.dll
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\obj\Debug\Customer2022.Data.pdb
+C:\Users\NhlapoT\Documents\Customer2022\Customer2022.Data\obj\Debug\Customer2022.Data.csproj.AssemblyReference.cache

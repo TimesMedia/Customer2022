@@ -12,22 +12,35 @@ namespace Customer2022.Models
         [Required]
         public int ContactID { get; set; }
         public string Initials { get; set; }
+        
+        public int TitleId { get; set; }
         [DisplayName("Customer Name")]
         [Required]
         public string FirstName { get; set; }
-        
         public string Surname { get; set; }
-        public string ProductName { get; set; }
-        public string EmailAddress { get; set; }
-        public string Address1 { get; set; }
-        public int DeliveryAddressId  { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Password1 {get;set;}
-        public string Username { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
         public int CompanyId { get; set; }
+        public string Address1 { get; set; }
+        public string Address3 { get; set; }
+        public int Address5 { get; set; }
+        public int AddressType { get; set; }
+        public int PostAddressId { get; set; }
+        public int PhysicalAddressId { get; set; }
         public int CountryId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public int Liability { get; set; }
+        public int Correspondence2 { get; set; }
+        public DateTime VerificationDate  { get; set; }
+        public int CheckpointPaymentTransactionId { get; set; }
+        public DateTime CheckpointDatePayment {get;set;}
+        public int CheckpointValue { get; set; }
+        public DateTime CheckpointDateInvoice { get; set; }
+        public int AutomaticPaymentAllocation { get; set; }
+        public string ModifiedBy { get; set; }
+        public int Marketing { get; set; }
+        public DateTime ModifiedOn { get; set; }
+        public string ProductName { get; set; }
+        public string Password1 { get; set; }
         public string Province  { get; set; }
         public string City { get; set; }
         public string  Suburb { get; set; }
@@ -37,7 +50,6 @@ namespace Customer2022.Models
         public int Verified { get; set; }
         public string StreetNo { get; set; }
         
-
     }
    
 }

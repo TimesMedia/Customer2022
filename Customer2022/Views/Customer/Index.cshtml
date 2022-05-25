@@ -35,8 +35,8 @@
                 <td>
                     @*// <a href="@Url.Action("Create","Customer", new { @id = @lCustomer.ContactID })">Register</a>*@
                     <a href="@Url.Action("Edit","Customer", new {pId = @lCustomer.ContactID })">Update</a>
-                    <a href="@Url.Action("Delete","Customer", new {@id = @lCustomer.ContactID })">Delete</a>
-                    <a href="@Url.Action("View","Customer", new { @id = lCustomer.ContactID })">View</a>
+                    <a href="@Url.Action("Delete","Customer", new {pId = @lCustomer.ContactID })">Delete</a>
+                    <a href="@Url.Action("View","Customer", new { pId = lCustomer.ContactID })">View</a>
                 </td>
         </tr>
     }
