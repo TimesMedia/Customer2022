@@ -64,110 +64,76 @@ namespace Customer2022.Controllers
                 lCustomers.Add(lCustomer);
 
             }
-            Console.Out.WriteLine("Display filenames to a file:");
+
             return View(lCustomers);
         }
 
         // GET: Customer/Create
-        public ActionResult Create()
+        public ActionResult Create(int pId = 0)
         {
-            return View(new Customer());
-        }
+            Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
+            gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pId, "");
 
+
+            foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
+            {
+                Customer lCustomer = new Customer();
+                lCustomer.ContactID = (int)lRow.CustomerId;
+                lCustomer.TitleId = lRow.TitleId;
+                lCustomer.Initials = lRow.Initials;
+                if (!lRow.IsFirstNameNull()) { lCustomer.FirstName = lRow.FirstName; }
+                lCustomer.Surname = lRow.Surname;
+                lCustomer.Address1 = lRow.Address1;
+                lCustomer.Address3 = lRow.Address3;
+                lCustomer.AddressType = lRow.AddressType;
+                lCustomer.CountryId = (int)lRow.CountryId;
+                lCustomer.CompanyId = lRow.CompanyId;
+                lCustomer.PhoneNumber = lRow.PhoneNumber;
+                lCustomer.EmailAddress = lRow.EmailAddress;
+                lCustomer.Liability = (int)lRow.Liability;
+                lCustomer.Correspondence2 = (int)lRow.Correspondence2;
+                lCustomer.Marketing = Convert.ToInt32(lRow.Marketing);
+
+            }
+            return View("Index");
+        }
         // POST: Customer/Create
         [HttpPost]
-        public ActionResult Create(int pId = 0)
+        public ActionResult Create(Customer pCustomer)
         {
             // TODO: Add insert logic here
             using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
             {
                 Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
-                gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pId, "");
+                gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pCustomer.ContactID, "");
 
                 Customer lCustomer = new Customer();
 
-                foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
-                {
-                    lCustomer.ContactID = (int)lRow.CustomerId;
-                    lCustomer.Initials = lRow.Initials;
-                    if (!lRow.IsFirstNameNull()) { lCustomer.FirstName = lRow.FirstName; }//T0 Display Even when the Name is NUll
-                    lCustomer.Surname = lRow.Surname;
-                    lCustomer.Address1 = lRow.Address1;
-                    lCustomer.Address3 = lRow.Address3;
-                    lCustomer.Address5 = Convert.ToInt32(lRow.Address5);
-                    lCustomer.AddressType = lRow.AddressType;
-                    lCustomer.PostAddressId = (int)lRow.PostAddressId;
-                    lCustomer.PhysicalAddressId = (int)lRow.PostAddressId;
-                    lCustomer.CountryId = (int)lRow.CountryId;
-                    lCustomer.PhoneNumber = lRow.PhoneNumber;
-                    lCustomer.EmailAddress = lRow.EmailAddress;
-                    lCustomer.Liability = (int)lRow.Liability;
-                    lCustomer.Correspondence2 = (int)lRow.Correspondence2;
-                    lCustomer.VerificationDate = lRow.VerificationDate;
-                    lCustomer.CheckpointPaymentTransactionId = (int)lRow.CheckpointPaymentTransactionId;
-                    lCustomer.CheckpointDatePayment = lRow.CheckpointDatePayment;
-                    lCustomer.CheckpointValue = (int)lRow.CheckpointValue;
-                    lCustomer.CheckpointDateInvoice = lRow.CheckpointDateInvoice;
-                    lCustomer.AutomaticPaymentAllocation = Convert.ToInt32(lRow.AutomaticPaymentAllocation);
-                    lCustomer.ModifiedBy = lRow.ModifiedBy;
-                    lCustomer.ModifiedOn = lRow.ModifiedOn;
+                
+                    lCustomerTable[0].TitleId = pCustomer.TitleId;
+                    lCustomerTable[0].Initials = pCustomer.Initials;
+                    if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
+                    lCustomerTable[0].Surname = pCustomer.Surname;
+                    lCustomerTable[0].Address1 = pCustomer.Address1;
+                    lCustomerTable[0].Address3 = pCustomer.Address3;
+                    lCustomerTable[0].AddressType = pCustomer.AddressType;
+                    lCustomerTable[0].CountryId = pCustomer.CountryId;
+                    lCustomerTable[0].CompanyId = pCustomer.CompanyId;
+                    lCustomerTable[0].PhoneNumber = pCustomer.PhoneNumber;
+                    lCustomerTable[0].EmailAddress = pCustomer.EmailAddress;
+                    lCustomerTable[0].Liability = pCustomer.Liability;
+                    lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
+                    lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
+
 
                     gCustomerTableAdapter.Update(lCustomerTable);
+                
 
-                }
-
-                return View("Edit");
+                return RedirectToAction("Edit");
             }
-
-                //    sqlcon.Open();
-                //    string query = "Insert INTO Customer ([TitleId],[Initials],[FirstName],[Surname],[CompanyId],[Address1],[Address3],[Address5],[AddressType],[PostAddressId],[PhysicalAddressId],[CountryId],[PhoneNumber],[EmailAddress][Liability],[Correspondence2],[VerificationDate],[CheckpointPaymentTransactionId],[CheckpointDatePayment],[CheckpointValue],[CheckpointDateInvoice],[AutomaticPaymentAllocation],[Marketing],[ModifiedBy],[ModifiedOn])" +
-                //        "VALUES(@TitledId,@Initials, @FirstName, @Surname,@CompanyId, @Address1,@Address3,@Address5,@AddressType,@PostAddressId,@PhysicalAddressId,@CountryId,@PhoneNumber,@EmailAddress,@Liability,@Correspondence2,@VerificationDate,@CheckpointPaymentTransactionId,@CheckpointDatePayment,@CheckpointValue,@CheckpointDateInvoice,@AutomaticPaymentAllocation,@Marketing, @ModifiedBy = 'Current_User', @ModifiedOn = 'GetDate()') ";
-                //    //"INSERT INTO DeliveryAddress(Province,City,Suburb,Street,StreetExtension,StreetNo,PostCode,ModifiedOn ,CountryId,ModifiedBy = 'Current_User',DeliveryAddressId)VALUES(@DeliveryAddressId,@Province,@City,@Suburb,@Street,@StreetExtension,@StreetNo,@PostCode, @ModifiedOn = 'GetDate()',@CountryId,@ModifiedBy = 'Current_User')";
-
-                //    SqlCommand sqlcmd = new SqlCommand(query, sqlcon);
-                //    //sqlcmd.Parameters.AddWithValue("@ContactID", customers.ContactID);
-                //    sqlcmd.Parameters.AddWithValue("@TitledId", customers.TitleId);
-                //    sqlcmd.Parameters.AddWithValue("@Initials", customers.Initials);
-                //    sqlcmd.Parameters.AddWithValue("@FirstName", customers.FirstName);
-                //    sqlcmd.Parameters.AddWithValue("@Surname", customers.Surname);
-                //    sqlcmd.Parameters.AddWithValue("@CompanyId", customers.CompanyId);
-                //    sqlcmd.Parameters.AddWithValue("@Address1", customers.Address1);
-                //    sqlcmd.Parameters.AddWithValue("@Address3", customers.Address3);
-                //    sqlcmd.Parameters.AddWithValue("@Address5", customers.Address5);
-                //    sqlcmd.Parameters.AddWithValue("AddressType", customers.AddressType);
-                //    sqlcmd.Parameters.AddWithValue("@PostAddressId", customers.PostAddressId);
-                //    sqlcmd.Parameters.AddWithValue("@PhysicalAddressId", customers.PhysicalAddressId);
-                //    sqlcmd.Parameters.AddWithValue("@CountryId", customers.CountryId);
-                //    sqlcmd.Parameters.AddWithValue("@PhoneNumber", customers.PhoneNumber);
-                //    sqlcmd.Parameters.AddWithValue("@EmailAddress", customers.EmailAddress);
-                //    sqlcmd.Parameters.AddWithValue("@Liability", customers.Liability);
-                //    sqlcmd.Parameters.AddWithValue("@Correspondence2", customers.Correspondence2);
-                //    sqlcmd.Parameters.AddWithValue("@VerificationDate", customers.VerificationDate);
-                //    sqlcmd.Parameters.AddWithValue("@CheckpointPaymentTransactionId", customers.CheckpointPaymentTransactionId);
-                //    sqlcmd.Parameters.AddWithValue("@CheckpointDatePayment", customers.CheckpointDatePayment);
-                //    sqlcmd.Parameters.AddWithValue("@CheckpointValue", customers.CheckpointValue);
-                //    sqlcmd.Parameters.AddWithValue("@CheckpointDateInvoice", customers.CheckpointDateInvoice);
-                //    sqlcmd.Parameters.AddWithValue("@AutomaticPaymentAllocation", customers.AutomaticPaymentAllocation);
-
-
-                //    //sqlcmd.Parameters.AddWithValue("ProductName", customers.ProductName);
-                //    //sqlcmd.Parameters.AddWithValue("@CountryId", customers.CountryId);
-                //    //sqlcmd.Parameters.AddWithValue("@Province", customers.Province);
-                //    //sqlcmd.Parameters.AddWithValue("@City", customers.City);
-                //    //sqlcmd.Parameters.AddWithValue("@Suburb", customers.Suburb);
-                //    //sqlcmd.Parameters.AddWithValue("@Street", customers.Street);
-                //    //sqlcmd.Parameters.AddWithValue("@StreetExtension", customers.StreetExtension);
-                //    //sqlcmd.Parameters.AddWithValue("@PostCode", customers.PostCode);
-                //    //sqlcmd.Parameters.AddWithValue("@StreetNo", customers.StreetNo);
-                //    sqlcmd.Parameters.AddWithValue("@ModifiedBy", customers.ModifiedBy);
-                //    sqlcmd.Parameters.AddWithValue("@ModifiedOn", customers.ModifiedOn);
-                //    //sqlcmd.Parameters.AddWithValue("@Verified", customers.Verified);
-                //    sqlcmd.ExecuteNonQuery();
-                //}
-                //return RedirectToAction("Index");
         }
 
-       
+
 
         //[HttpGet]
         //public ActionResult Edit(int pId = 0)
@@ -193,6 +159,7 @@ namespace Customer2022.Controllers
         //    return View("Edit", lCustomer);
 
         //}
+        [HttpGet]
         public ActionResult Edit(int pId = 0)
         {
             Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
@@ -205,10 +172,20 @@ namespace Customer2022.Controllers
             foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
             {
                 lCustomer.ContactID = (int)lRow.CustomerId;
+                lCustomer.TitleId = lRow.TitleId;
                 lCustomer.Initials = lRow.Initials;
                 if (!lRow.IsFirstNameNull()) { lCustomer.FirstName = lRow.FirstName; }
                 lCustomer.Surname = lRow.Surname;
                 lCustomer.Address1 = lRow.Address1;
+                lCustomer.Address3 = lRow.Address3;
+                lCustomer.AddressType = lRow.AddressType;
+                lCustomer.CountryId = (int)lRow.CountryId;
+                lCustomer.CompanyId = lRow.CompanyId;
+                lCustomer.PhoneNumber = lRow.PhoneNumber;
+                lCustomer.EmailAddress = lRow.EmailAddress;
+                lCustomer.Liability = (int)lRow.Liability;
+                lCustomer.Correspondence2 = (int)lRow.Correspondence2;
+                lCustomer.Marketing = Convert.ToInt32(lRow.Marketing);
 
             }
 
@@ -272,16 +249,26 @@ namespace Customer2022.Controllers
             Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
             gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pCustomer.ContactID, "");
 
+            
+                lCustomerTable[0].TitleId = pCustomer.TitleId;
+                lCustomerTable[0].Initials = pCustomer.Initials;
+                if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
+                lCustomerTable[0].Surname = pCustomer.Surname;
+                lCustomerTable[0].Address1 = pCustomer.Address1;
+                lCustomerTable[0].Address3 = pCustomer.Address3;
+                lCustomerTable[0].AddressType = pCustomer.AddressType;
+                lCustomerTable[0].CountryId = pCustomer.CountryId;
+                lCustomerTable[0].CompanyId = pCustomer.CompanyId;
+                lCustomerTable[0].PhoneNumber = pCustomer.PhoneNumber;
+                lCustomerTable[0].EmailAddress = pCustomer.EmailAddress;
+                lCustomerTable[0].Liability = pCustomer.Liability;
+                lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
+                lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
 
-            lCustomerTable[0].Initials = pCustomer.Initials;
-            if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
-            lCustomerTable[0].Surname = pCustomer.Surname;
-            lCustomerTable[0].Address1 = pCustomer.Address1;
-
-            gCustomerTableAdapter.Update(lCustomerTable);
-        
+                gCustomerTableAdapter.Update(lCustomerTable);
+            
             return RedirectToAction("Index");
-
+    
             //Customer2022.Data.CustomerDataset.CustomerRow lnewrow = lCustomerTable.NewCustomerRow();
             //lnewrow.Initials = pCustomer.Initials;
             //lCustomerTable.AddCustomerRow(lnewrow);
