@@ -95,7 +95,6 @@ namespace Customer2022.Controllers
                 lCustomer.Liability = (int)lRow.Liability;
                 lCustomer.Correspondence2 = (int)lRow.Correspondence2;
                 lCustomer.Marketing = Convert.ToInt32(lRow.Marketing);
-
             }
 
             return View(lCustomer);
@@ -128,10 +127,11 @@ namespace Customer2022.Controllers
                     lCustomerTable[0].Liability = pCustomer.Liability;
                     lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
                     lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
+
                     gCustomerTableAdapter.Update(lCustomerTable);
                 }
 
-                return RedirectToAction("Edit");
+                return RedirectToAction("Index");
             }
         }
 
