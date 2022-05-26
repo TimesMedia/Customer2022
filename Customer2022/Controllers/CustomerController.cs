@@ -75,9 +75,11 @@ namespace Customer2022.Controllers
             gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pId, "");
 
 
+
+            Customer lCustomer = new Customer();
+
             foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
             {
-                Customer lCustomer = new Customer();
                 lCustomer.ContactID = (int)lRow.CustomerId;
                 lCustomer.TitleId = lRow.TitleId;
                 lCustomer.Initials = lRow.Initials;
@@ -95,7 +97,8 @@ namespace Customer2022.Controllers
                 lCustomer.Marketing = Convert.ToInt32(lRow.Marketing);
 
             }
-            return View("Index");
+
+            return View(lCustomer);
         }
         // POST: Customer/Create
         [HttpPost]
@@ -163,6 +166,9 @@ namespace Customer2022.Controllers
         {
             Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
             gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pId, "");
+
+
+
             Customer lCustomer = new Customer();
 
             foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
