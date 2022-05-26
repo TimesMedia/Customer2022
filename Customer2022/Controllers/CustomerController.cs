@@ -109,7 +109,8 @@ namespace Customer2022.Controllers
 
                 Customer lCustomer = new Customer();
 
-                
+                foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
+                {
                     lCustomerTable[0].TitleId = pCustomer.TitleId;
                     lCustomerTable[0].Initials = pCustomer.Initials;
                     if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
@@ -124,10 +125,8 @@ namespace Customer2022.Controllers
                     lCustomerTable[0].Liability = pCustomer.Liability;
                     lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
                     lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
-
-
                     gCustomerTableAdapter.Update(lCustomerTable);
-                
+                }
 
                 return RedirectToAction("Edit");
             }
@@ -164,9 +163,6 @@ namespace Customer2022.Controllers
         {
             Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
             gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pId, "");
-
-
-
             Customer lCustomer = new Customer();
 
             foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
@@ -246,29 +242,36 @@ namespace Customer2022.Controllers
         [HttpPost]
         public ActionResult Edit(Customer pCustomer)
         {
-            Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
-            gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pCustomer.ContactID, "");
+            using (SqlConnection sqlcon = new SqlConnection(gConnectionString))
+            {
+                Customer2022.Data.CustomerDataset.CustomerDataTable lCustomerTable = new CustomerDataset.CustomerDataTable();
+                gCustomerTableAdapter.FillBy(lCustomerTable, "CustomerId", pCustomer.ContactID, "");
 
-            
-                lCustomerTable[0].TitleId = pCustomer.TitleId;
-                lCustomerTable[0].Initials = pCustomer.Initials;
-                if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
-                lCustomerTable[0].Surname = pCustomer.Surname;
-                lCustomerTable[0].Address1 = pCustomer.Address1;
-                lCustomerTable[0].Address3 = pCustomer.Address3;
-                lCustomerTable[0].AddressType = pCustomer.AddressType;
-                lCustomerTable[0].CountryId = pCustomer.CountryId;
-                lCustomerTable[0].CompanyId = pCustomer.CompanyId;
-                lCustomerTable[0].PhoneNumber = pCustomer.PhoneNumber;
-                lCustomerTable[0].EmailAddress = pCustomer.EmailAddress;
-                lCustomerTable[0].Liability = pCustomer.Liability;
-                lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
-                lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
+                Customer lCustomer = new Customer();
 
-                gCustomerTableAdapter.Update(lCustomerTable);
-            
-            return RedirectToAction("Index");
-    
+                foreach (CustomerDataset.CustomerRow lRow in lCustomerTable.Rows)
+                {
+
+
+                    lCustomerTable[0].TitleId = pCustomer.TitleId;
+                    lCustomerTable[0].Initials = pCustomer.Initials;
+                    if (!lCustomerTable[0].IsFirstNameNull()) { pCustomer.FirstName = pCustomer.FirstName; }
+                    lCustomerTable[0].Surname = pCustomer.Surname;
+                    lCustomerTable[0].Address1 = pCustomer.Address1;
+                    lCustomerTable[0].Address3 = pCustomer.Address3;
+                    lCustomerTable[0].AddressType = pCustomer.AddressType;
+                    lCustomerTable[0].CountryId = pCustomer.CountryId;
+                    lCustomerTable[0].CompanyId = pCustomer.CompanyId;
+                    lCustomerTable[0].PhoneNumber = pCustomer.PhoneNumber;
+                    lCustomerTable[0].EmailAddress = pCustomer.EmailAddress;
+                    lCustomerTable[0].Liability = pCustomer.Liability;
+                    lCustomerTable[0].Correspondence2 = pCustomer.Correspondence2;
+                    lCustomerTable[0].Marketing = Convert.ToBoolean(pCustomer.Marketing);
+
+                    gCustomerTableAdapter.Update(lCustomerTable);
+                }
+                return RedirectToAction("Index");
+            }
             //Customer2022.Data.CustomerDataset.CustomerRow lnewrow = lCustomerTable.NewCustomerRow();
             //lnewrow.Initials = pCustomer.Initials;
             //lCustomerTable.AddCustomerRow(lnewrow);
